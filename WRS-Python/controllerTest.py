@@ -13,6 +13,9 @@ import numpy as np
 i2c = busio.I2C(board.SCL, board.SDA)
 orientationSensor = adafruit_bno055.BNO055_I2C(i2c)
 
+MOTOR.dcCONFIG(0,1,'ccw',0,0)
+MOTOR.dcCONFIG(0,2,'ccw',0,0)
+
 WHEEL_BASE = 25.6
 
 
@@ -57,8 +60,6 @@ class Encoder:
         pos = (self.pAB << 2) | cAB
         self.ticks += self.result[pos]
         self.pAB=cAB
-        #print("A:{} B:{}".format(self.stateA, self.stateB))
-        #print(self.ticks)
         
     def reset():
         ticks = 0
@@ -74,8 +75,7 @@ class Encoder:
         
         return abs(rpm)
         
-MOTOR.dcCONFIG(0,1,'ccw',0,0)
-MOTOR.dcCONFIG(0,2,'ccw',0,0)
+
 
 leftEncoder = Encoder(26,19)
 rightEncoder = Encoder(20,21)
@@ -101,6 +101,7 @@ MOTOR.dcSTART(0,1) #right
 MOTOR.dcSTART(0,2) #left
 
 targetVel = 30
+
 try:
     while True:
         leftChange = leftEncoder.ticks - lastLeftEncoder
