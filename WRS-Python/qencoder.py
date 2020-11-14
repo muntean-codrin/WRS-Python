@@ -1,7 +1,6 @@
 from gpiozero import DigitalInputDevice
 import time
-
-MOTOR_CPR = 1120.0
+from globaldata import *
 
 class QuadratureEncoder:
     ticks = 0
@@ -11,9 +10,6 @@ class QuadratureEncoder:
     
     stateA = 0
     stateB = 0
-    
-    ticksNow = 0
-    ticksLast = 0
     
     timeLast = 0
     timeNow = 0
@@ -48,13 +44,11 @@ class QuadratureEncoder:
     def reset():
         ticks = 0
         
-    def Rpm(self):
-        self.ticksNow = self.ticks - self.ticksLast
-        self.timeNow = time.time() - self.timeLast
+    def Rpm(self, tNow, tLast):
+        dTicks = tNow - tLast
+        dTime = time.time() - self.timeLast
         
-        rpm = (self.ticksNow / MOTOR_CPR) / ((self.timeNow) / 60.0)
+        rpm = (dTicks / MOTOR_CPR) / ((dTime) / 60.0)
         
         self.timeLast = time.time()
-        self.ticksLast = self.ticks
-        
         return abs(rpm)

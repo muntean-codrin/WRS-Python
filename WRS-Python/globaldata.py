@@ -1,0 +1,6 @@
+import math
+
+WHEEL_BASE = 25.6
+MOTOR_CPR = 1120.0
+WHEEL_RADIUS = 4.5
+CM_PER_TICK = 2 * math.pi * WHEEL_RADIUS / MOTOR_CPR
